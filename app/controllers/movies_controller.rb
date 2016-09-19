@@ -7,15 +7,18 @@ class MoviesController < ApplicationController
   end
 
   def index
+    ratings = params[:ratings]
     ordem = params[:sort_by]
     id = params[:id]
-    if ordem == nil
-      @movies = Movie.all
-    elsif ordem == "title"
-      @movies = Movie.order(:title)
-    elsif ordem == "release_date"
-      @movies = Movie.order(:release_date)
+    @all_ratings = Movie.all_ratings
+    if ratings == nil
+        filtro_de_ratings = @all_ratings
+    else
+        filtro_de_ratings = params[:ratings].keys
     end
+    @box_checado = Movie.box_checado filtro_de_ratings
+    @movies = Movie.order(ordem).where(:rating => filtro_de_ratings)
+    
   end
 
   def new

@@ -1,7 +1,16 @@
 require 'active_record'
 
 class Movie < ActiveRecord::Base
-  #self.abstract_class = true
+  def self.all_ratings
+      ['G','PG','PG-13','R']
+   end
+   def self.box_checado(ratings)
+       checked = Hash.new
+       all_ratings.each {|rating|
+       checked[rating] = ratings.include?(rating)
+       }
+       checked
+   end
 end
 # starwars = Movie.create!(:title => 'Star Wars',
 # 	  :release_date => '25/4/1977', :rating => 'PG')
